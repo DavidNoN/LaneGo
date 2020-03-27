@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-4" *ngFor="let i of instruments" (click)="searchByInstrument(i.id)">
+      <nb-card>
+        <nb-card-header>
+          <h2>{{i.name}}</h2>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+              <img [src]="i.src" style="max-width:100%; height:auto;">
+          </div>
+        </nb-card-body>
+        <nb-card-footer>
+          <p>{{i.description}}</p>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+</div>

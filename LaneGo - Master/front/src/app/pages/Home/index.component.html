@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-4" *ngFor="let g of genres" (click)="searchByGenre(g.id)">
+      <nb-card>
+        <nb-card-header>
+          <h2>{{g.name}}</h2>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+              <img [src]="g.src" style="max-width:100%; height:auto;">
+          </div>
+        </nb-card-body>
+        <nb-card-footer>
+          <p>{{g.description}}</p>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+</div>

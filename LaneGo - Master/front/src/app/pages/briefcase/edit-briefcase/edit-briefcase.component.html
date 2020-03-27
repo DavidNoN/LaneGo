@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="col-md-8">
+      <nb-card>
+        <nb-card-header>
+          Crear entrada
+        </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+            <div class="col-md-2">
+              <nb-user [onlyPicture]="true" [picture]="user?.picture" size='large'>
+              </nb-user>
+            </div>
+            <div class="col-md-10">
+              <input [(ngModel)]="newPub.description" type="textarea" size="giant" nbInput fullWidth placeholder="Añade una descripción">
+            </div>
+          </div>
+          <hr *ngIf="newPub.files.length > 0">
+          <div class="row" *ngIf="newPub.files.length > 0">
+            <div class="col-md-3 offset-md-1" *ngFor="let p of newPub.files">
+              <div class="row">
+                <img [src]="p.src" *ngIf="p.format == 'image'" class="standardBox">
+                <video *ngIf="p.format == 'video'" controls class="standardBox">
+                  <source [src]="getContent(p.src)" type="video/mp4">
+                </video>
+              </div>
+              <div class="row" style="margin-top: 5%;">
+                <div class="col-sm-2">
+                  <nb-icon icon="trash" pack="fa" [status]="'danger'" (click)="removeFile(p)" style="cursor: pointer"></nb-icon>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+          <hr>
+          <div class="row" *ngIf="newPub.files.length < 5">
+            <div class="col-md-12">
+              <button nbButton [status]="'success'" outline (click)="file.click()"><span>
+                  <nb-icon icon="image" pack="fa"></nb-icon>
+                  Subir video/foto
+                </span></button>
+              <input #file type="file" (change)="onFileChange($event)" style="display: none;">
+            </div>
+          </div>
+        </nb-card-body>
+        <nb-card-footer>
+          <button nbButton fullWidth status='info' (click)="createPublication()">
+            Publicar
+          </button>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <h1>Portafolio</h1>
+  <div class="col-md-12" *ngFor="let pub of myPublications">
+      <nb-card>
+          <nb-card-header>
+            <div class="row">
+              <div class="col-md-6">
+                {{pub.date}}
+              </div>
+              <div class="col-md-6 pull-right">
+                <button style="float:right" [size]="'small'" nbButton [status]="'danger'" (click)="deletePub(pub.id)"><span>
+                  <nb-icon icon="trash" pack="fa"></nb-icon>
+                  Eliminar
+                </span></button> 
+              </div>
+            </div>
+            </nb-card-header>
+            <nb-card-body style="max-width: 100%; overflow-x: hidden;">
+              <div class="row">
+                <div class="col-md-2">
+                  <nb-user [onlyPicture]="true" [picture]="user?.picture" size='large'>
+                  </nb-user>
+                </div>
+                <div class="col-md-10">
+                  <h5>{{pub.description}}</h5>
+                </div>
+              </div>
+              <hr *ngIf="pub.files.length > 0">
+              <div class="row" *ngIf="pub.files.length > 0">
+                <div class="col-md-12 offset-md-1" *ngFor="let p of pub.files; let i=index">
+                  <div class="row">
+                    <div class="col-md-12" *ngIf="i == pub.showedFileIndex">
+                      <img [src]="p.src" *ngIf="p.format == 'image'" style="max-height: 700px; max-width: 700px;">
+                    </div>
+                    <div class="col-md-12" *ngIf="i == pub.showedFileIndex">
+                      <video *ngIf="p.format == 'video'" controls style="max-height: 700px; max-width: 700px;">
+                        <source [src]="getContent(p.src)" type="video/mp4">
+                        </video>
+                    </div>
+                    </div>
+                  <br>
+                </div>
+              </div>
+              <hr>
+            </nb-card-body>
+            <nb-card-footer>
+                <div class="row" style="padding-right: 5%; padding-left: 5%;">
+                    <button *ngIf="pub.showedFileIndex > 0" [size]="'small'" nbButton [status]="'info'" (click)="pub.showedFileIndex = pub.showedFileIndex - 1"><span>
+                      <nb-icon icon="chevron-left" pack="fa"></nb-icon>
+                      Previa
+                    </span></button>
+                    <button *ngIf="pub.showedFileIndex < pub.files.length -1" [size]="'small'" nbButton [status]="'info'" (click)="pub.showedFileIndex = pub.showedFileIndex + 1"><span>
+                      <nb-icon icon="chevron-right" pack="fa"></nb-icon>
+                      Siguiente
+                    </span></button>
+                  </div>
+            </nb-card-footer>
+      </nb-card>
+    </div>
+  </div>

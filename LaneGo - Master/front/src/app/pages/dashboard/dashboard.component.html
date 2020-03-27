@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="col-md-6" *ngFor="let user of results">
+    <nb-card>
+      <nb-card-header>
+        <div class="row">
+          <div class="col-md-6">
+            <span>
+              <nb-user [picture]="user?.picture" [name]="user.artistname? user.artistname : user.name">
+              </nb-user>
+            </span>
+          </div>
+          <div class="col-md-6" style="text-align: right; padding-top:2%">
+            {{user.city != null ? user.city :  ""}} {{user.distance ? user.distance + "km" : ''}}
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body style="overflow-x: hidden;">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="row" *ngIf="user.thumbnailSrc != null && user.thumbnailSrc != ''">
+              <div class="col-md-12">
+                <img [src]="user.thumbnailSrc" style="max-height: 200px; max-width: 200px;">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9 offset-md-1" style="text-align: right;">
+            <small *ngIf="user.genres?.length > 0">Concursos disponibles</small><br>
+            <div class="btn-group" *ngFor="let g of user.genres">
+              <button nbButton size="tiny" style="margin-right: 2px ;">
+                {{g.name}}
+              </button>
+            </div><br>
+            <small *ngIf="user.instruments?.length > 0">Mis monedas</small><br>
+            <div class="btn-group" *ngFor="let i of user.instruments">
+              <button nbButton size="tiny" style="margin-right: 2px ;">
+                {{i.name}}
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6" *ngIf="user.experience != null && user.experience != ''">
+            <small><b><i>Experiencia</i></b></small><br>
+            <small>{{user.experience}}</small>
+          </div>
+          <div class="col-md-6" *ngIf="user.achievements != null && user.achievements != ''">
+            <small><b><i>Reconocimientos</i></b></small><br>
+            <small>{{user.achievements}}</small>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="row">
+          <div class="col-md-5">
+            <button nbButton size="small" [status]="'info'" outline (click)="open(dialog, user)">
+              <span>
+                <!-- <nb-icon icon="image" pack="fa"></nb-icon> -->
+                Contactar
+              </span></button>
+          </div>
+          <div class="col-md-4">
+            <button nbButton size="small" [status]="'success'" outline
+              (click)="open(briefcase, user, 'portfolio')"><span>
+                Mi Perfil
+              </span></button>
+          </div>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card class="dialog">
+    <nb-card-header>{{data.title}}</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6">
+          <b><i> Teléfono contacto: </i></b> {{data.contactnumber}}
+        </div>
+        <div class="col-md-6">
+          <b><i>Email contacto: </i></b> {{data.contactemail}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <b><i>Utiliza whatsapp: </i></b> &nbsp; {{data.whatsapp != null && data.whatsapp ? 'Si' : 'No'}}
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="ref.close()">Cerrar</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #briefcase let-data let-ref="dialogRef">
+  <nb-card class="briefcase">
+    <nb-card-header>
+      <div class="row">
+        <div class="col-md-6">
+            Portafolio
+        </div>
+        <div class="col-md-6" style="padding-right: 5px;">
+          <button *ngFor="let pub of data.pubs; let i=index" [size]="'tiny'" nbButton 
+          [status]="'warning'" (click)="data.i = i">
+            {{i+1}}
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body style="max-width: 100%;">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>{{data.pubs && data.pubs.length > 0 ? data.pubs[data.i].description : ''}}</h5>
+        </div>
+        <div class="col-md-6" style="float: right;">
+          {{data.pubs && data.pubs.length > 0 ? data.pubs[data.i].date : ''}}
+        </div>
+      </div>
+      <div class="row" *ngIf ="data.pubs && data.pubs.length > 0">
+        <hr *ngIf="data.pubs[data.i].files.length > 0">
+        <div class="row" *ngIf="data.pubs[data.i].files.length > 0">
+          <div class="col-md-12 offset-md-1" *ngFor="let p of data.pubs[data.i].files; let i=index">
+            <div class="row">
+              <div class="col-md-12" *ngIf="i == data.pubs[data.i].showedFileIndex">
+                <img [src]="p.src" *ngIf="p.format == 'image'" style="max-height: 400px; max-width: 400px;">
+              </div>
+              <div class="col-md-12" *ngIf="i == data.pubs[data.i].showedFileIndex">
+                <video *ngIf="p.format == 'video'" controls style="max-height: 400px; max-width: 400px;">
+                  <source [src]="getContent(p.src)" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div *ngIf ="data.pubs && data.pubs.length > 0" class="row" style="padding-right: 3%; padding-left: 3%;">
+        <button *ngIf="data.pubs[data.i].showedFileIndex > 0" [size]="'tiny'" nbButton [status]="'info'" (click)="data.pubs[data.i].showedFileIndex = data.pubs[data.i].showedFileIndex - 1"><span>
+          <nb-icon icon="chevron-left" pack="fa"></nb-icon>
+          Previa
+        </span></button>
+        <button *ngIf="data.pubs[data.i].showedFileIndex < data.pubs[data.i].files.length -1" [size]="'tiny'" nbButton [status]="'info'" (click)="data.pubs[data.i].showedFileIndex = data.pubs[data.i].showedFileIndex + 1"><span>
+          <nb-icon icon="chevron-right" pack="fa"></nb-icon>
+          Siguiente
+        </span></button>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="ref.close()">Cerrar</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

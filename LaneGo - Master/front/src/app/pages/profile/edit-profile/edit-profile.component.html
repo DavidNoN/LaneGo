@@ -1,0 +1,248 @@
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="Datos personales">
+          <div class="row">
+            <div class="col-md-6 center" style="text-align: center;">
+              <img class="rounded-image" [src]="picture" alt="">
+              <br>
+              <div class="col-md-12">
+                <button nbButton [status]="'success'" outline (click)="file.click()"><span>
+                    <nb-icon icon="image" pack="fa"></nb-icon>
+                    Subir archivo
+                  </span></button>
+                <input #file type="file" (change)="onFileChange($event)" style="display: none;">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name" class="label">Nombre</label>
+                <input type="text" nbInput fullWidth id="name" placeholder="Nombre" [(ngModel)]="name">
+              </div>
+              <div class="form-group">
+                <label for="lastName" class="label">Apellido</label>
+                <input type="text" nbInput fullWidth id="lastName" placeholder="Apellido" [(ngModel)]="lastName">
+              </div>
+              <div class="form-group">
+                <label for="phone" class="label">Teléfono</label>
+                <input type="number" nbInput fullWidth id="phone" placeholder="Teléfono" [(ngModel)]="phone">
+              </div>
+              <div class="form-group">
+                <label for="password" class="label">Contraseña</label>
+                <input type="password" nbInput fullWidth id="password" [(ngModel)]="password">
+              </div>
+              <div class="form-group">
+                <label for="repeatpassword" class="label">Repite la contraseña</label>
+                &nbsp;
+                <small style="color:red" *ngIf="!passwordmatch">Las contraseñas deben coincidir</small>
+                <input type="password" (input)="passwordChange()" nbInput fullWidth id="repeatpassword"
+                  [(ngModel)]="repeatpassword">
+              </div>
+              <div class="form-group">
+                <div class="control-status-example">
+                  <nb-toggle status="control" [(ngModel)]="locationToggle" (checkedChange)="locationCheckedChanged()">
+                    Compartir mi ubicación</nb-toggle>
+                </div>
+              </div>
+              <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
+            </div>
+          </div>
+        </nb-tab>
+        <nb-tab tabTitle="Datos como artista">
+          <nb-stepper orientation="horizontal">
+            <nb-step [label]="labelOne">
+              <ng-template #labelOne>Sobre el artista</ng-template>
+              <h3>Sobre el artista</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="artistInfo" class="form-group" #myform="ngForm">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':artistInfo.controls.artistname.invalid && myform.submitted}">
+                          <label for="artistname" class="label">Nombre artístico/agrupación</label>
+                          <input formControlName="artistname" type="text" nbInput fullWidth id="artisticname"
+                            placeholder="Nombre de la banda/Nombre artístico">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':artistInfo.controls.creationdate.invalid && myform.submitted}">
+                          <label for="creationdate" class="label">Fecha de creación</label>
+                          <input nbInput fullWidth id="creationdate" [nbDatepicker]="creationdatepicker" [(ngModel)]="creationDate">
+                          <nb-datepicker #creationdatepicker ></nb-datepicker>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':artistInfo.controls.originCity.invalid && myform.submitted}">
+                          <label for="originCity" class="label">Ciudad orígen de la banda</label>
+                          <input formControlName="originCity" type="text" nbInput fullWidth id="originCity">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="input-group">
+                              <nb-select placeholder="Género">
+                                <nb-option *ngFor="let genre of genres" (click)="addGenre(genre)">
+                                  {{genre.name}}
+                                </nb-option>
+                              </nb-select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group" *ngFor="let g of currentgenres">
+                              <button nbButton size="tiny" style="margin-right: 0px ;">
+                                {{g.name}}
+                              </button>
+                              <button nbButton size="tiny" status="danger" style="margin-left: 0px; margin-right:15px;"
+                                (click)="removeGenre(g)">
+                                X
+                              </button>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="input-group">
+                              <nb-select placeholder="Instrumento">
+                                <nb-option *ngFor="let inst of instruments" (click)="addInstrument(inst)">
+                                  {{inst.name}}
+                                </nb-option>
+                              </nb-select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group" *ngFor="let i of currentinstruments">
+                              <button nbButton size="tiny" style="margin-right: 0px ;">
+                                {{i.name}}
+                              </button>
+                              <button nbButton size="tiny" status="danger" style="margin-left: 0px; margin-right:15px;"
+                                (click)="removeInstrument(i)">
+                                X
+                              </button>
+                            </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+              <button nbButton disabled nbStepperNext>Anterior</button>
+              <button nbButton nbStepperNext>Siguiente</button>
+              <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
+
+            </nb-step>
+            <nb-step [label]="Contacto">
+              <ng-template #Contacto>Contacto</ng-template>
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="contactInfo" class="form-group" #myform="ngForm">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':contactInfo.controls.contactphone.invalid && myform.submitted}">
+                          <label for="contactphone" class="label">Teléfono</label>
+                          <input formControlName="contactphone" type="number" nbInput fullWidth id="contactphone"
+                            placeholder="123">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':contactInfo.controls.contactemail.invalid && myform.submitted}">
+                          <label for="contactemail" class="label">Email de contacto</label>
+                          <input formControlName="contactemail" type="email" nbInput fullWidth id="contactemail"
+                            placeholder="correo@ejemplo">
+                        </div>
+                      </div>
+                    </div>
+                    <br><br>
+                    <nb-toggle labelPosition="end" formControlName="whatsapp">Uso Whatsapp</nb-toggle>
+                  </form>
+                </div>
+              </div>
+              <br>
+              <button nbButton nbStepperPrevious>Anterior</button>
+              <button nbButton nbStepperNext>Siguiente</button>
+              <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
+
+            </nb-step>
+            <nb-step label="Trayectoria">
+              <h3>Trayectoria</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="expertise" class="form-group" #myform="ngForm">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':expertise.controls.experience.invalid && myform.submitted}">
+                          <label for="experience" class="label">Cúentanos de tu experiencia como músico</label>
+                          <textarea formControlName="experience" type="email" nbInput fullWidth id="experience"
+                            placeholder="Una vez toqué en..."></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':expertise.controls.achievements.invalid && myform.submitted}">
+                          <label for="achievements" class="label">Reconocimientos</label>
+                          <textarea formControlName="achievements" type="email" nbInput fullWidth id="achievements"
+                            placeholder="Me dieron el primer lugar como..."></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <button nbButton nbStepperPrevious>Anterior</button>
+              <button nbButton nbStepperNext>Siguiente</button>
+              <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
+
+            </nb-step>
+            <nb-step label="Contratación">
+              <ng-template #Contratación>Contratación</ng-template>
+              <h3>Datos para contratos</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="servicesInfo" class="form-group" #myform="ngForm">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':servicesInfo.controls.services.invalid && myform.submitted}">
+                          <label for="services" class="label">¿Que servicios ofreces?</label>
+                          <textarea formControlName="services" type="email" nbInput fullWidth id="services"
+                            placeholder="Puedo tocar el ukulele..."></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="input-group"
+                          [ngClass]="{'has-error':servicesInfo.controls.paymentmethod.invalid && myform.submitted}">
+                          <label for="paymentmethod" class="label">Métodos de pago</label>
+                          <textarea formControlName="paymentmethod" type="email" nbInput fullWidth id="paymentmethod"
+                            placeholder=""></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <button nbButton nbStepperPrevious>Anterior</button>
+              <button nbButton disabled nbStepperNext>Siguiente</button>
+              <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
+
+            </nb-step>
+          </nb-stepper>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

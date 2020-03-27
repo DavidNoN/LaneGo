@@ -1,0 +1,26 @@
+.rounded-image {
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+  
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  agm-map{
+    height: 300px
+}
+
+nb-stepper {
+  text-align: center;
+
+  button {
+    cursor: pointer;
+    margin: 0.5rem;
+  }
+}
+left-align {
+  text-align: left;
+}

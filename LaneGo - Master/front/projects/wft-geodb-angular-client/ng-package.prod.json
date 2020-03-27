@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/wft-geodb-angular-client",
+  "lib": {
+    "entryFile": "src/public_api.ts"
+  }
+}

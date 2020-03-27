@@ -1,0 +1,5 @@
+{
+    "ConnectionStrings": {  
+        "DataAccessMySqlProvider": "server=localhost;database=trouce;user=root;pwd=swordfish852"
+    }
+}

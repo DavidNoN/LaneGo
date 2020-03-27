@@ -1,0 +1,6 @@
+#!/bin/bash
+# Read Password
+echo -n Password: 
+read -s pwd
+# Run Command
+dotnet ef dbcontext scaffold "server=localhost;database=trouce;user=root;pwd=swordfish852;" "Pomelo.EntityFrameworkCore.MySql" -o \Models -f -v
