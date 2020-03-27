@@ -3,53 +3,54 @@
     <nb-card>
       <nb-tabset fullWidth>
         <nb-tab tabTitle="Datos personales">
-          <div class="row">
-            <div class="col-md-6 center" style="text-align: center;">
-              <img class="rounded-image" [src]="picture" alt="">
-              <br>
-              <div class="col-md-12">
-                <button nbButton [status]="'success'" outline (click)="file.click()"><span>
-                    <nb-icon icon="image" pack="fa"></nb-icon>
-                    Subir archivo
-                  </span></button>
-                <input #file type="file" (change)="onFileChange($event)" style="display: none;">
-              </div>
+          <!--<div class="col-md-12">-->
+            <!-- Esto es otro comentario <button nbButton [status]="'success'" outline (click)="file.click()"><span>
+                <nb-icon icon="image" pack="fa"></nb-icon>
+                Subir archivo
+              </span></button>
+            <input #file type="file" (change)="onFileChange($event)" style="display: none;">-->
+            <div class="form-group">
+              <label for="lastName" class="label">Nombre de la Empresa</label>
+              <input type="text" nbInput fullWidth id="lastName" placeholder="Nombre de la Empresa" [(ngModel)]="lastName">
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="name" class="label">Nombre</label>
-                <input type="text" nbInput fullWidth id="name" placeholder="Nombre" [(ngModel)]="name">
-              </div>
-              <div class="form-group">
-                <label for="lastName" class="label">Apellido</label>
-                <input type="text" nbInput fullWidth id="lastName" placeholder="Apellido" [(ngModel)]="lastName">
-              </div>
-              <div class="form-group">
-                <label for="phone" class="label">Teléfono</label>
-                <input type="number" nbInput fullWidth id="phone" placeholder="Teléfono" [(ngModel)]="phone">
-              </div>
-              <div class="form-group">
-                <label for="password" class="label">Contraseña</label>
-                <input type="password" nbInput fullWidth id="password" [(ngModel)]="password">
-              </div>
-              <div class="form-group">
-                <label for="repeatpassword" class="label">Repite la contraseña</label>
-                &nbsp;
-                <small style="color:red" *ngIf="!passwordmatch">Las contraseñas deben coincidir</small>
-                <input type="password" (input)="passwordChange()" nbInput fullWidth id="repeatpassword"
-                  [(ngModel)]="repeatpassword">
-              </div>
-              <div class="form-group">
-                <div class="control-status-example">
-                  <nb-toggle status="control" [(ngModel)]="locationToggle" (checkedChange)="locationCheckedChanged()">
-                    Compartir mi ubicación</nb-toggle>
-                </div>
-              </div>
+            <div class="form-group">
+              <label for="name" class="label">Nombre</label>
+              <input type="text" nbInput fullWidth id="name" placeholder="Nombre" [(ngModel)]="name">
+            </div>
+            <div class="form-group">
+              <label for="lastName" class="label">Nit</label>
+              <input type="text" nbInput fullWidth id="lastName" placeholder="Nit" [(ngModel)]="lastName">
+            </div>
+            <div class="form-group">
+              <label for="phone" class="label">Teléfono</label>
+              <input type="number" nbInput fullWidth id="phone" placeholder="Teléfono" [(ngModel)]="phone">
+            </div>
+            <div class="form-group">
+              <label for="lastName" class="label">Ciudad</label>
+              <input type="text" nbInput fullWidth id="lastName" placeholder="Ciudad" [(ngModel)]="lastName">
+            </div>
+            <div class="form-group">
+              <label for="lastName" class="label">Actividad Comercial</label>
+              <input type="text" nbInput fullWidth id="lastName" placeholder="Actividad Comercial" [(ngModel)]="lastName">
+            </div>
+            <div class="form-group">
+              <label for="password" class="label">Contraseña</label>
+              <input type="password" nbInput fullWidth id="password" [(ngModel)]="password">
+            </div>
+            <div class="form-group">
+              <label for="repeatpassword" class="label">Repite la contraseña</label>
+              &nbsp;
+              <small style="color:red" *ngIf="!passwordmatch">Las contraseñas deben coincidir</small>
+              <input type="password" (input)="passwordChange()" nbInput fullWidth id="repeatpassword"
+                [(ngModel)]="repeatpassword">
+            </div>
+            <div class="center">
               <button type="submit" nbButton status="danger" (click)="onSubmit()">Actualizar datos</button>
             </div>
-          </div>
+          <!--</div>-->
         </nb-tab>
-        <nb-tab tabTitle="Datos como artista">
+        <!--<nb-tab tabTitle="Datos como artista">
+          
           <nb-stepper orientation="horizontal">
             <nb-step [label]="labelOne">
               <ng-template #labelOne>Sobre el artista</ng-template>
@@ -241,7 +242,7 @@
 
             </nb-step>
           </nb-stepper>
-        </nb-tab>
+        </nb-tab>-->
       </nb-tabset>
     </nb-card>
   </div>
